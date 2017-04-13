@@ -99,15 +99,8 @@ class CalculationsController < ApplicationController
     # The numbers the user input are in the array @numbers.
     # ================================================================================
 
-    med = @numbers.max - @numbers.min
-    if @numbers.length.to_f % 2 == 0
-      low = (@numbers.length / 2 )
-      high = ( (@numbers.length / 2 ) ) + 1
-      # high = (@numbers.length.to_f / 2 ).ceil
-      medn = (@numbers[low]+@numbers[high]).to_f / 2
-    else
-      medn = @numbers
-    end
+
+
 
     @sorted_numbers = @numbers.sort
 
@@ -119,11 +112,24 @@ class CalculationsController < ApplicationController
 
     @range = @numbers.max - @numbers.min
 
+    if @sorted_numbers.length.to_f % 2 == 0
+    high = (@sorted_numbers.length / 2 )
+      low = ( (@sorted_numbers.length / 2 ) ) - 1
+      # high = (@sorted_numbers.length.to_f / 2 ).ceil
+      medn = (@sorted_numbers[low]+@sorted_numbers[high]).to_f / 2
+    else
+      idx = (@sorted_numbers.length / 2 ).floor
+      medn = @sorted_numbers[idx]
+    end
+
+
     @median = medn
 
-    @sum = "Replace this string with your answer."
+    @sum = @numbers.sum
 
-    @mean = "Replace this string with your answer."
+    @mean = @numbers.sum / @numbers.length
+
+    
 
     @variance = "Replace this string with your answer."
 
