@@ -4,20 +4,34 @@ class CalculationsController < ApplicationController
     @text = params[:user_text]
     @special_word = params[:user_word]
 
-    # ================================================================================
-    # Your code goes below.
-    # The text the user input is in the string @text.
-    # The special word the user input is in the string @special_word.
-    # ================================================================================
+# code goes below
+
+    text_only = @text.downcase.gsub("\n","").gsub("\r","").gsub("\t","").gsub(" ","")
+    clean_text = @text.downcase
+    char_count = clean_text.length
+    char_count_no = clean_text.gsub(" ","").length
+    words = clean_text.split.count
+
+    ocurrr =[]
+    ocur = clean_text.gsub(/[^a-z0-9\s]/i, "").split
+    ocur.each do |txt|
+      if txt == @special_word
+        ocurrr.push(1)
+      else
+        ocurrr.push(0)
+      end
+    end
 
 
-    @word_count = "Replace this string with your answer."
 
-    @character_count_with_spaces = "Replace this string with your answer."
 
-    @character_count_without_spaces = "Replace this string with your answer."
+    @word_count = words
 
-    @occurrences = "Replace this string with your answer."
+    @character_count_with_spaces = char_count
+
+    @character_count_without_spaces = char_count_no
+
+    @occurrences = ocurrr.sum
 
     # ================================================================================
     # Your code goes above.
@@ -37,8 +51,11 @@ class CalculationsController < ApplicationController
     # The number of years the user input is in the integer @years.
     # The principal value the user input is in the decimal @principal.
     # ================================================================================
+    monthly_rate = @apr / 12 /100
+    payment = (monthly_rate * @principal * ((1+monthly_rate)**(12*@years))) / (((1+monthly_rate)**(12*@years))-1)
+    # P = [i L (1 + i)^n] / [(1 + i)^n - 1].
 
-    @monthly_payment = "Replace this string with your answer."
+    @monthly_payment = payment
 
     # ================================================================================
     # Your code goes above.
@@ -58,14 +75,14 @@ class CalculationsController < ApplicationController
     # Note: Ruby stores Times in terms of seconds since Jan 1, 1970.
     #   So if you subtract one time from another, you will get an integer
     #   number of seconds as a result.
-    # ================================================================================
+    # ===============================================================================
 
-    @seconds = "Replace this string with your answer."
-    @minutes = "Replace this string with your answer."
-    @hours = "Replace this string with your answer."
-    @days = "Replace this string with your answer."
-    @weeks = "Replace this string with your answer."
-    @years = "Replace this string with your answer."
+    @seconds = @ending - @starting
+    @minutes = @seconds / 60
+    @hours = @minutes / 60
+    @days = @hours / 24
+    @weeks = @days / 7
+    @years = @weeks / 52
 
     # ================================================================================
     # Your code goes above.
@@ -82,17 +99,27 @@ class CalculationsController < ApplicationController
     # The numbers the user input are in the array @numbers.
     # ================================================================================
 
-    @sorted_numbers = "Replace this string with your answer."
+    med = @numbers.max - @numbers.min
+    if @numbers.length.to_f % 2 == 0
+      low = (@numbers.length / 2 )
+      high = ( (@numbers.length / 2 ) ) + 1
+      # high = (@numbers.length.to_f / 2 ).ceil
+      medn = (@numbers[low]+@numbers[high]).to_f / 2
+    else
+      medn = @numbers
+    end
 
-    @count = "Replace this string with your answer."
+    @sorted_numbers = @numbers.sort
 
-    @minimum = "Replace this string with your answer."
+    @count = @numbers.count
 
-    @maximum = "Replace this string with your answer."
+    @minimum = @numbers.min
 
-    @range = "Replace this string with your answer."
+    @maximum = @numbers.max
 
-    @median = "Replace this string with your answer."
+    @range = @numbers.max - @numbers.min
+
+    @median = medn
 
     @sum = "Replace this string with your answer."
 
